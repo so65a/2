@@ -16,74 +16,27 @@
             box-sizing: border-box;
             overflow: hidden;
             background: linear-gradient(to right bottom, rgb(26, 32, 44), rgb(74, 29, 150), rgb(91, 33, 182));
-        }
-
-        /* Стили для Android */
-        .android-container {
-            display: none;
-            position: relative;
-            height: 100vh;
+            color: #fff;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
-            padding: 20px;
         }
-        .android-container h2 {
+
+        h2 {
             font-size: 32px;
             margin-bottom: 10px;
             padding: 10px;
             animation: pulse 2s infinite;
         }
-        .android-container p {
+
+        p {
             font-size: 18px;
             margin-bottom: 20px;
             padding: 10px;
-        }
-        .android-container button {
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            background-color: #ffffff;
-            color: #4A1D96;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            max-width: 300px;
-            transition: all 0.3s ease;
-        }
-        .android-container button:hover {
-            background-color: #EDE7F6;
-            color: #321E75;
         }
 
-        /* Стили для iOS */
-        .ios-container {
-            display: none;
-            position: relative;
-            height: 100vh;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-        }
-        .ios-container h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            padding: 10px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        .ios-container p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            padding: 10px;
-        }
-        .ios-container .fingerprint {
+        .action-image {
             width: 100%;
             max-width: 150px;
             height: auto;
@@ -93,67 +46,47 @@
             -webkit-touch-callout: none;
         }
 
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
         /* Адаптивность */
         @media (max-width: 400px) {
-            .android-container h2, .ios-container h2 {
+            h2 {
                 font-size: 24px;
             }
-            .android-container p, .ios-container p {
+            p {
                 font-size: 14px;
             }
-            .android-container button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-            .ios-container .fingerprint {
+            .action-image {
                 max-width: 120px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Контейнер для Android -->
-    <div class="android-container" id="androidContainer">
-        <h2>НАЖМИТЕ, ЧТОБЫ ОТКРЫТЬ! ⬇️</h2>
-        <p>ОТКРОЕТСЯ В ВАШЕМ БРАУЗЕРЕ</p>
-        <button onclick="openInBrowser()">ОТКРЫТЬ В БРАУЗЕРЕ 🚀</button>
-    </div>
-
-    <!-- Контейнер для iOS -->
-    <div class="ios-container" id="iosContainer">
-        <h2>УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ⬇️⬇️!</h2>
-        <p>ВЫБЕРИТЕ <b>"ОТКРЫТЬ ССЫЛКУ"</b></p>
-        <a href="https://prev.affomelody.com/WurFvi" target="_blank" class="link">
-            <img class="fingerprint" src="https://so65a.github.io/2/1.png" alt="Отпечаток пальца">
-        </a>
-    </div>
+    <h2>НАЖМИ НА ТРИ ТОЧКИ ⬆️</h2>
+    <p>ВЫБЕРИ <b>"ОТКРЫТЬ В БРАУЗЕРЕ"</b></p>
+    <a href="https://prev.affomelody.com/WurFvi" target="_blank">
+        <img class="action-image" src="https://so65a.github.io/2/1.png" alt="Действие">
+    </a>
 
     <script>
-        // Распознавание ОС
-        const isAndroid = /android/i.test(navigator.userAgent);
-
-        // Элементы страницы
-        const androidContainer = document.getElementById('androidContainer');
-        const iosContainer = document.getElementById('iosContainer');
-
-        // Показываем нужный контейнер
-        if (isAndroid) {
-            androidContainer.style.display = 'flex';
-            iosContainer.style.display = 'none';
-        } else {
-            androidContainer.style.display = 'none';
-            iosContainer.style.display = 'flex';
-        }
-
-        // Функция для открытия в браузере (Android)
         const targetUrl = "https://prev.affomelody.com/WurFvi";
-        function openInBrowser() {
-            // Пробуем открыть в новой вкладке
-            window.open(targetUrl, '_blank');
-            // Запасной редирект через 500 мс, если не сработало
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 500);
+        const userAgent = navigator.userAgent.toLowerCase();
+        const urlParams = new URLSearchParams(window.location.search);
+        const isExternal = urlParams.get('external') === 'true';
+
+        // Проверяем, открыт ли сайт в TikTok in-app браузере
+        const isTikTokBrowser = /ttwebview|musically|tiktok|bytedance|douyin/i.test(userAgent) || 
+                               window.navigator.standalone === false || 
+                               /webview/i.test(userAgent);
+
+        // Если это внешний браузер (или есть параметр ?external=true), редиректим сразу
+        if (!isTikTokBrowser || isExternal) {
+            window.location.href = targetUrl;
         }
     </script>
 </body>
