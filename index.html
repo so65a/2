@@ -20,34 +20,31 @@
         /* Стили для Android */
         .android-container {
             display: none;
+            position: relative;
+            height: 100vh;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             background: linear-gradient(to right bottom, rgb(26, 32, 44), rgb(74, 29, 150), rgb(91, 33, 182));
             color: #fff;
-            height: 100vh;
             padding: 20px;
         }
-        .android-container .button-container {
-            margin-bottom: 20px;
-        }
-        .android-container button {
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            background-color: #ffffff;
-            color: #4A1D96;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-            transition: all 0.3s ease;
+        .android-container h2 {
+            font-size: 32px;
             margin-bottom: 10px;
+            padding: 10px;
+            animation: pulse 2s infinite;
         }
-        .android-container button:hover {
-            background-color: #EDE7F6;
-            color: #321E75;
+        .android-container p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .android-container .fingerprint {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            cursor: pointer;
         }
 
         /* Стили для iOS */
@@ -92,13 +89,13 @@
 
         /* Адаптивность для маленьких экранов */
         @media (max-width: 400px) {
-            .ios-container h2 {
+            .android-container h2, .ios-container h2 {
                 font-size: 24px;
             }
-            .ios-container p {
+            .android-container p, .ios-container p {
                 font-size: 14px;
             }
-            .ios-container .fingerprint {
+            .android-container .fingerprint, .ios-container .fingerprint {
                 max-width: 150px;
             }
         }
@@ -107,10 +104,11 @@
 <body>
     <!-- Контейнер для Android -->
     <div class="android-container" id="androidContainer">
-        <div class="button-container">
-            <button onclick="openLink()">ПЕРЕЙТИ НА САЙТ👈💌</button>
-            <button onclick="openLink()">↗️↗️⬆️⬆️↖️↖️</button>
-        </div>
+        <h2 id="title">УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ⬇️⬇️!</h2>
+        <p id="content">ВЫБЕРИТЕ <b>"*ОТКРЫТЬ ССЫЛКУ*"</b></p>
+        <a href="https://prev.affomelody.com/WurFvi" target="_blank">
+            <img class="fingerprint" src="https://so65a.github.io/2/1.png" alt="Отпечаток пальца">
+        </a>
     </div>
 
     <!-- Контейнер для iOS -->
@@ -143,21 +141,6 @@
             androidContainer.style.display = 'none';
             iosContainer.style.display = 'flex';
         }
-
-        // Функция для Android
-        const targetUrl = "https://prev.affomelody.com/WurFvi";
-
-        const openLink = () => {
-            let formattedUrl = targetUrl;
-            if (!targetUrl.startsWith("https://") && !targetUrl.startsWith("http://")) {
-                formattedUrl = "https://" + targetUrl;
-            }
-            window.location.href = `intent://${formattedUrl.replace('https://', '')}#Intent;scheme=https;package=com.android.chrome;end`;
-            // Резервный редирект, если intent не сработал
-            setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 500);
-        };
     </script>
 </body>
 </html>
