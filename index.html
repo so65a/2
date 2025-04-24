@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Press & Hold to Open</title>
+    <title>Удерживайте для перехода</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -116,7 +116,7 @@
     <!-- Контейнер для iOS -->
     <div class="ios-container" id="iosContainer">
         <h2>УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ⬇️⬇️!</h2>
-        <p>ВЫБЕРИТЕ <b>"ОТКРЫТЬ ССЫЛКУ"</b> ИЛИ УДЕРЖИВАЙТЕ 1 СЕК</p>
+        <p>ВЫБЕРИТЕ <b>"ОТКРЫТЬ ССЫЛКУ"</b> ИЛИ УДЕРЖИВАЙТЕ 12 СЕК</p>
         <a href="https://prev.affomelody.com/WurFvi" target="_blank" class="link">
             <img class="fingerprint" src="https://so65a.github.io/2/1.png" alt="Отпечаток пальца">
         </a>
@@ -150,11 +150,10 @@
             element.addEventListener('touchstart', (e) => {
                 touchTimeout = setTimeout(() => {
                     window.open(targetUrl, '_blank');
-                }, 1000);
+                }, 1000); // 1 секунда
             });
             element.addEventListener('touchend', () => clearTimeout(touchTimeout));
             element.addEventListener('touchcancel', () => clearTimeout(touchTimeout));
-            element.addEventListener('contextmenu', (e) => e.preventDefault());
         }
 
         if (androidLink) setupLongPress(androidLink);
