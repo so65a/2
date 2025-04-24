@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Удерживайте для перехода</title>
+    <title>Открыть в браузере</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -40,15 +40,21 @@
             margin-bottom: 20px;
             padding: 10px;
         }
-        .android-container .fingerprint-link {
-            width: 150px;
-            height: 150px;
-            background: url('https://so65a.github.io/2/1.png') no-repeat center center;
-            background-size: contain;
+        .android-container button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background-color: #ffffff;
+            color: #4A1D96;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
+            max-width: 300px;
+            transition: all 0.3s ease;
+        }
+        .android-container button:hover {
+            background-color: #EDE7F6;
+            color: #321E75;
         }
 
         /* Стили для iOS */
@@ -95,9 +101,9 @@
             .android-container p, .ios-container p {
                 font-size: 14px;
             }
-            .android-container .fingerprint-link {
-                width: 120px;
-                height: 120px;
+            .android-container button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
             }
             .ios-container .fingerprint {
                 max-width: 120px;
@@ -108,15 +114,15 @@
 <body>
     <!-- Контейнер для Android -->
     <div class="android-container" id="androidContainer">
-        <h2>УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ⬇️⬇️!</h2>
-        <p>ВЫБЕРИТЕ <b>"ОТКРЫТЬ В БРАУЗЕРЕ"</b> ИЛИ УДЕРЖИВАЙТЕ 1 СЕК</p>
-        <a href="https://prev.affomelody.com/WurFvi" target="_blank" class="fingerprint-link"></a>
+        <h2>НАЖМИТЕ, ЧТОБЫ ОТКРЫТЬ! ⬇️</h2>
+        <p>ОТКРОЕТСЯ В ВАШЕМ БРАУЗЕРЕ</p>
+        <button onclick="openInBrowser()">ОТКРЫТЬ В БРАУЗЕРЕ 🚀</button>
     </div>
 
     <!-- Контейнер для iOS -->
     <div class="ios-container" id="iosContainer">
         <h2>УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ⬇️⬇️!</h2>
-        <p>ВЫБЕРИТЕ <b>"ОТКРЫТЬ ССЫЛКУ"</b> ИЛИ УДЕРЖИВАЙТЕ 12 СЕК</p>
+        <p>ВЫБЕРИТЕ <b>"ОТКРЫТЬ ССЫЛКУ"</b></p>
         <a href="https://prev.affomelody.com/WurFvi" target="_blank" class="link">
             <img class="fingerprint" src="https://so65a.github.io/2/1.png" alt="Отпечаток пальца">
         </a>
@@ -125,7 +131,6 @@
     <script>
         // Распознавание ОС
         const isAndroid = /android/i.test(navigator.userAgent);
-        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
         // Элементы страницы
         const androidContainer = document.getElementById('androidContainer');
@@ -140,24 +145,16 @@
             iosContainer.style.display = 'flex';
         }
 
-        // Обработка долгого нажатия
+        // Функция для открытия в браузере (Android)
         const targetUrl = "https://prev.affomelody.com/WurFvi";
-        const androidLink = document.querySelector('.fingerprint-link');
-        const iosLink = document.querySelector('.link');
-
-        function setupLongPress(element) {
-            let touchTimeout;
-            element.addEventListener('touchstart', (e) => {
-                touchTimeout = setTimeout(() => {
-                    window.open(targetUrl, '_blank');
-                }, 1000); // 1 секунда
-            });
-            element.addEventListener('touchend', () => clearTimeout(touchTimeout));
-            element.addEventListener('touchcancel', () => clearTimeout(touchTimeout));
+        function openInBrowser() {
+            // Пробуем открыть в новой вкладке
+            window.open(targetUrl, '_blank');
+            // Запасной редирект через 500 мс, если не сработало
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
         }
-
-        if (androidLink) setupLongPress(androidLink);
-        if (iosLink) setupLongPress(iosLink);
     </script>
 </body>
 </html>
