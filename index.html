@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Открыть в браузере</title>
+    <title>Відкрити у браузері</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -15,28 +15,95 @@
             text-align: center;
             box-sizing: border-box;
             overflow: hidden;
-            background: linear-gradient(to right bottom, rgb(26, 32, 44), rgb(74, 29, 150), rgb(91, 33, 182));
-            color: #fff;
+            background: linear-gradient(135deg, #1a202c, #4a1d96, #5b21b6);
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
-        h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            padding: 10px;
+        /* Стили для Android */
+        .android-container {
+            display: none;
+            position: relative;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .android-container h2, .android-container p {
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        .android-container h2 {
+            font-weight: 600;
             animation: pulse 2s infinite;
         }
 
-        p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            padding: 10px;
+        .android-container p {
+            font-weight: 400;
         }
 
-        .action-image {
+        .android-container p strong {
+            color: #e0c3fc;
+        }
+
+        .android-container .icon {
+            font-size: 48px;
+            margin-top: 20px;
+            animation: bounce 1.5s infinite;
+        }
+
+        .android-container .top-arrow {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 48px;
+            color: #e0c3fc;
+            animation: bounce 1.5s infinite;
+        }
+
+        /* Стили для iOS */
+        .ios-container {
+            display: none;
+            position: relative;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .ios-container h2, .ios-container p {
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        .ios-container h2 {
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        .ios-container p {
+            font-weight: 400;
+        }
+
+        .ios-container p strong {
+            color: #e0c3fc;
+        }
+
+        .ios-container .fingerprint {
             width: 100%;
             max-width: 150px;
             height: auto;
@@ -48,45 +115,102 @@
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
 
-        /* Адаптивность */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Адаптивність */
         @media (max-width: 400px) {
-            h2 {
-                font-size: 24px;
+            .android-container h2, .android-container p, .ios-container h2, .ios-container p {
+                font-size: 18px;
+                padding: 8px 15px;
             }
-            p {
-                font-size: 14px;
+            .android-container .icon {
+                font-size: 36px;
+                margin-top: 15px;
             }
-            .action-image {
+            .android-container .top-arrow {
+                top: 15px;
+                right: 15px;
+                font-size: 36px;
+            }
+            .ios-container .fingerprint {
                 max-width: 120px;
             }
         }
     </style>
 </head>
 <body>
-    <h2>НАЖМИ НА ТРИ ТОЧКИ ⬆️</h2>
-    <p>ВЫБЕРИ <b>"ОТКРЫТЬ В БРАУЗЕРЕ"</b></p>
-    <a href="https://prev.affomelody.com/WurFvi" target="_blank">
-        <img class="action-image" src="https://so65a.github.io/2/1.png" alt="Действие">
-    </a>
+    <!-- Контейнер для Android -->
+    <div class="android-container" id="androidContainer">
+        <div class="top-arrow">↗️</div>
+        <h2>НАТИСНИ НА ТРИ КРАПКИ ⬆️</h2>
+        <p>ОБЕРИ <strong>"ВІДКРИТИ У БРАУЗЕРІ"</strong></p>
+        <div class="icon">⋮</div>
+    </div>
+
+    <!-- Контейнер для iOS -->
+    <div class="ios-container" id="iosContainer">
+        <h2>УТРИМУЙТЕ ПАЛЕЦЬ НА ВІДБИТКУ ⬇️⬇️!</h2>
+        <p>ОБЕРИ <strong>"ВІДКРИТИ ПОСИЛАННЯ"</strong> </p>
+        <a href="https://prev.affomelody.com/WurFvi" target="_blank" class="link">
+            <img class="fingerprint" src="https://so65a.github.io/2/1.png" alt="Відбиток пальця">
+        </a>
+    </div>
 
     <script>
+        // Распознавание ОС
+        const isAndroid = /android/i.test(navigator.userAgent);
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+        // Элементы страницы
+        const androidContainer = document.getElementById('androidContainer');
+        const iosContainer = document.getElementById('iosContainer');
+
+        // Показываем нужный контейнер
+        if (isAndroid) {
+            androidContainer.style.display = 'flex';
+            iosContainer.style.display = 'none';
+        } else {
+            androidContainer.style.display = 'none';
+            iosContainer.style.display = 'flex';
+        }
+
         const targetUrl = "https://prev.affomelody.com/WurFvi";
         const userAgent = navigator.userAgent.toLowerCase();
         const urlParams = new URLSearchParams(window.location.search);
         const isExternal = urlParams.get('external') === 'true';
 
-        // Проверяем, открыт ли сайт в TikTok in-app браузере
-        const isTikTokBrowser = /ttwebview|musically|tiktok|bytedance|douyin/i.test(userAgent) || 
-                               window.navigator.standalone === false || 
-                               /webview/i.test(userAgent);
+        // Проверяем, открыт ли сайт в TikTok in-app браузере (для Android)
+        const isTikTokBrowser = /ttwebview|musically|tiktok|bytedance|douyin|webview/i.test(userAgent) || 
+                               window.navigator.standalone === false;
 
-        // Если это внешний браузер (или есть параметр ?external=true), редиректим сразу
-        if (!isTikTokBrowser || isExternal) {
+        // Если это Android и внешний браузер или есть параметр ?external=true, редиректим
+        if (isAndroid && (!isTikTokBrowser || isExternal)) {
             window.location.href = targetUrl;
+        }
+
+        // Обработка долгого нажатия для iOS
+        if (isIOS) {
+            const iosLink = document.querySelector('.link');
+            let touchTimeout;
+            iosLink.addEventListener('touchstart', (e) => {
+                touchTimeout = setTimeout(() => {
+                    window.open(targetUrl, '_blank');
+                }, 1000); // 1 секунда
+            });
+            iosLink.addEventListener('touchend', () => clearTimeout(touchTimeout));
+            iosLink.addEventListener('touchcancel', () => clearTimeout(touchTimeout));
+
+            // Если это внешний браузер или есть параметр ?external=true, редиректим
+            if (!isTikTokBrowser || isExternal) {
+                window.location.href = targetUrl;
+            }
         }
     </script>
 </body>
