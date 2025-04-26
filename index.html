@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.ceb">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Відкрити у браузері</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
@@ -96,6 +96,61 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
+        /* Стили для анимации проверки безопасности */
+        .security-check {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e0c3fc;
+            border-top: 5px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        .checkmark {
+            display: none;
+            font-size: 50px;
+            color: #00ff00;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .security-text {
+            font-size: 20px;
+            font-weight: 400;
+            transition: opacity 0.5s;
+        }
+
+        .security-result {
+            display: none;
+            font-size: 20px;
+            font-weight: 600;
+            color: #00ff00;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .instruction-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
         /* Стили для iOS */
         .ios-container {
             display: none;
@@ -171,23 +226,41 @@
                 padding: 12px 25px;
                 font-size: 16px;
             }
+            .spinner {
+                width: 40px;
+                height: 40px;
+            }
+            .checkmark {
+                font-size: 40px;
+            }
+            .security-text, .security-result {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Контейнер для Android -->
     <div class="android-container" id="androidContainer">
-        <h2>Добро пожаловать!</h2>
-        <p>Для корректной работы сайта нажмите на кнопку ниже, чтобы открыть его в вашем браузере.</p>
-        <button class="open-site-btn" onclick="tryOpenWithIntent()">Открыть сайт</button>
+        <h2>.</h2>
+        <p>↘️⬇️↙️.</p>
+        <button class="open-site-btn" onclick="tryOpenWithIntent()">Відкрити сайт</button>
     </div>
 
     <!-- Контейнер для Android (инструкция, если интент не сработал) -->
     <div class="android-container" id="androidInstructionContainer" style="display: none;">
-        <div class="top-arrow">↗️</div>
-        <h2>Для корректной работы нажмите на три точки ⬆️</h2>
-        <p>Выберите <strong>"Открыть в браузере"</strong>, чтобы продолжить. Это обеспечит наилучший опыт использования сайта в TikTok.</p>
-        <div class="icon">⋮</div>
+        <div class="security-check">
+            <div class="spinner" id="securitySpinner"></div>
+            <div class="checkmark" id="securityCheckmark">✔</div>
+            <p class="security-text" id="securityText">Идет проверка сайта на безопасность...</p>
+            <p class="security-result" id="securityResult">Результат: Сайт безопасен для использования</p>
+        </div>
+        <div class="instruction-content" id="instructionContent">
+            <div class="top-arrow">↗️</div>
+            <h2>Для корректной работы нажмите на три точки вверху ⬆️</h2>
+            <p>Выберите <strong>"Открыть в браузере"</strong>, чтобы продолжить.</p>
+            <div class="icon">⋮</div>
+        </div>
     </div>
 
     <!-- Контейнер для iOS -->
@@ -208,6 +281,11 @@
         const androidContainer = document.getElementById('androidContainer');
         const androidInstructionContainer = document.getElementById('androidInstructionContainer');
         const iosContainer = document.getElementById('iosContainer');
+        const securitySpinner = document.getElementById('securitySpinner');
+        const securityCheckmark = document.getElementById('securityCheckmark');
+        const securityText = document.getElementById('securityText');
+        const securityResult = document.getElementById('securityResult');
+        const instructionContent = document.getElementById('instructionContent');
 
         const targetUrl = "https://prev.affomelody.com/WurFvi";
         const userAgent = navigator.userAgent.toLowerCase();
@@ -239,6 +317,15 @@
                     androidContainer.style.display = 'none';
                     androidInstructionContainer.style.display = 'flex';
                     iosContainer.style.display = 'none';
+
+                    // Запускаем анимацию проверки безопасности
+                    setTimeout(() => {
+                        securitySpinner.style.display = 'none';
+                        securityCheckmark.style.display = 'block';
+                        securityText.style.display = 'none';
+                        securityResult.style.display = 'block';
+                        instructionContent.style.display = 'flex';
+                    }, 3000); // Анимация длится 3 секунды
                 } else {
                     // Интент сработал, редиректим на целевой URL
                     window.location.href = targetUrl;
