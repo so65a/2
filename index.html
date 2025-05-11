@@ -1,105 +1,347 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Redirecting...</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Відкрити у браузері</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-    .container {
-      padding: 20px;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            text-align: center;
+            box-sizing: border-box;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a202c, #4a1d96, #5b21b6);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-    .open-site-btn {
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #f00;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
+        .android-container {
+            display: none;
+            position: relative;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
 
-    .icon {
-      font-size: 40px;
-      margin: 20px 0;
-    }
+        .android-container h2, .android-container p {
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
 
-    .security-text,
-    .security-result {
-      margin: 10px 0;
-    }
+        .android-container h2 {
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
 
-    .hidden {
-      display: none;
-    }
-  </style>
+        .android-container p {
+            font-weight: 400;
+        }
+
+        .android-container p strong {
+            color: #e0c3fc;
+        }
+
+        .android-container .icon {
+            font-size: 48px;
+            margin-top: 20px;
+            animation: bounce 1.5s infinite;
+        }
+
+        .android-container .top-arrow {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 48px;
+            color: #e0c3fc;
+            animation: bounce 1.5s infinite;
+        }
+
+        .open-site-btn {
+            background: linear-gradient(45deg, #6b46c1, #9f7aea);
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .open-site-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .open-site-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .security-check {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e0c3fc;
+            border-top: 5px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        .checkmark {
+            display: none;
+            font-size: 50px;
+            color: #00ff00;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .security-text {
+            font-size: 20px;
+            font-weight: 400;
+            transition: opacity 0.5s;
+        }
+
+        .security-result {
+            display: none;
+            font-size: 20px;
+            font-weight: 600;
+            color: #00ff00;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .instruction-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .ios-container {
+            display: none;
+            position: relative;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .ios-container h2, .ios-container p {
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        .ios-container h2 {
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        .ios-container p {
+            font-weight: 400;
+        }
+
+        .ios-container p strong {
+            color: #e0c3fc;
+        }
+
+        .ios-container .fingerprint {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 400px) {
+            .android-container h2, .android-container p, .ios-container h2, .ios-container p {
+                font-size: 18px;
+                padding: 8px 15px;
+            }
+            .android-container .icon {
+                font-size: 36px;
+                margin-top: 15px;
+            }
+            .android-container .top-arrow {
+                top: 15px;
+                right: 15px;
+                font-size: 36px;
+            }
+            .ios-container .fingerprint {
+                max-width: 120px;
+            }
+            .open-site-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            .spinner {
+                width: 40px;
+                height: 40px;
+            }
+            .checkmark {
+                font-size: 40px;
+            }
+            .security-text, .security-result {
+                font-size: 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div id="androidContainer" class="hidden">
-      <h2>🔞</h2>
-      <p>↘️⬇️↙️</p>
-      <button class="open-site-btn" onclick="tryOpenWithIntent()">Open the site</button>
+    <div class="android-container" id="androidContainer">
+        <h2>🔞</h2>
+        <p>↘️⬇️↙️</p>
+        <button class="open-site-btn" onclick="tryOpenWithIntent()">Click here</button>
     </div>
 
-    <div id="androidInstruction" class="hidden">
-      <p class="security-text" id="securityText">Checking site safety...</p>
-      <p class="security-result" id="securityResult">Result: The site is safe to use</p>
-      <h2>For proper access, tap the three dots at the top ⬆️</h2>
-      <p>Select <strong>"Open in browser"</strong> to continue.</p>
-      <div class="icon">⋮</div>
+    <div class="android-container" id="androidInstructionContainer" style="display: none;">
+        <div class="security-check">
+            <div class="spinner" id="securitySpinner"></div>
+            <div class="checkmark" id="securityCheckmark">✔</div>
+            <p class="security-text" id="securityText">Checking site safety...</p>
+            <p class="security-result" id="securityResult">Result: The site is safe to use</p>
+        </div>
+        <div class="instruction-content" id="instructionContent">
+            <div class="top-arrow">↗️</div>
+            <h2>For proper access, tap the three dots at the top ⬆️</h2>
+            <p>Select <strong>"Open in browser"</strong>, чтобы продолжить.</p>
+            <div class="icon">⋮</div>
+        </div>
     </div>
 
-    <div id="iosContainer" class="hidden">
-      <h2>HOLD YOUR FINGER ON THE FINGERPRINT ⬇️⬇️!</h2>
-      <p>CHOOSE <strong>"OPEN LINK"</strong></p>
+    <div class="ios-container" id="iosContainer">
+        <h2>HOLD YOUR FINGER ON THE FINGERPRINT ⬇️⬇️!</h2>
+        <p>CHOOSE <strong>"OPEN LINK"</strong> </p>
+        <a href="https://prev.affomelody.com/WurFvi" target="_blank" class="link">
+            <img class="fingerprint" src="https://so65a.github.io/2/1.png" alt="Відбиток пальця">
+        </a>
     </div>
-  </div>
 
-  <script>
-    function tryOpenWithIntent() {
-      const url = new URLSearchParams(window.location.search).get('url');
-      if (url) {
-        window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;end;`;
-      }
-    }
+    <script>
+        const isAndroid = /android/i.test(navigator.userAgent);
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
-    function detectPlatform() {
-      const ua = navigator.userAgent || navigator.vendor || window.opera;
-      const androidContainer = document.getElementById('androidContainer');
-      const androidInstruction = document.getElementById('androidInstruction');
-      const iosContainer = document.getElementById('iosContainer');
+        const androidContainer = document.getElementById('androidContainer');
+        const androidInstructionContainer = document.getElementById('androidInstructionContainer');
+        const iosContainer = document.getElementById('iosContainer');
+        const securitySpinner = document.getElementById('securitySpinner');
+        const securityCheckmark = document.getElementById('securityCheckmark');
+        const securityText = document.getElementById('securityText');
+        const securityResult = document.getElementById('securityResult');
+        const instructionContent = document.getElementById('instructionContent');
 
-      if (/android/i.test(ua)) {
-        androidContainer.classList.remove('hidden');
-        setTimeout(() => {
-          androidInstruction.classList.remove('hidden');
-        }, 3000);
-      } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-        iosContainer.classList.remove('hidden');
-      } else {
-        androidContainer.classList.remove('hidden');
-        setTimeout(() => {
-          androidInstruction.classList.remove('hidden');
-        }, 3000);
-      }
-    }
+        const targetUrl = "https://prev.affomelody.com/WurFvi";
+        const userAgent = navigator.userAgent.toLowerCase();
+        const urlParams = new URLSearchParams(window.location.search);
+        const isExternal = urlParams.get('external') === 'true';
 
-    detectPlatform();
-  </script>
+        const isTikTokBrowser = /ttwebview|musically|tiktok|bytedance|douyin|webview/i.test(userAgent) || 
+                               window.navigator.standalone === false;
+
+        function tryOpenWithIntent() {
+            const intentUrl = `intent://prev.affomelody.com/WurFvi#Intent;scheme=https;package=com.android.chrome;end`;
+            let intentTriggered = false;
+
+            const startTime = Date.now();
+            window.addEventListener('blur', () => {
+                intentTriggered = true;
+            });
+
+            window.location.href = intentUrl;
+
+            setTimeout(() => {
+                if (!intentTriggered && (Date.now() - startTime) < 1500) {
+                    androidContainer.style.display = 'none';
+                    androidInstructionContainer.style.display = 'flex';
+                    iosContainer.style.display = 'none';
+
+                    setTimeout(() => {
+                        securitySpinner.style.display = 'none';
+                        securityCheckmark.style.display = 'block';
+                        securityText.style.display = 'none';
+                        securityResult.style.display = 'block';
+                        instructionContent.style.display = 'flex';
+                    }, 3000);
+                } else {
+                    window.location.href = targetUrl;
+                }
+            }, 1000);
+        }
+
+        if (isAndroid) {
+            if (!isTikTokBrowser || isExternal) {
+                window.location.href = targetUrl;
+            } else {
+                androidContainer.style.display = 'flex';
+                androidInstructionContainer.style.display = 'none';
+                iosContainer.style.display = 'none';
+            }
+        } else if (isIOS) {
+            androidContainer.style.display = 'none';
+            androidInstructionContainer.style.display = 'none';
+            iosContainer.style.display = 'flex';
+
+            const iosLink = document.querySelector('.link');
+            let touchTimeout;
+            iosLink.addEventListener('touchstart', (e) => {
+                touchTimeout = setTimeout(() => {
+                    window.open(targetUrl, '_blank');
+                }, 1000);
+            });
+            iosLink.addEventListener('touchend', () => clearTimeout(touchTimeout));
+            iosLink.addEventListener('touchcancel', () => clearTimeout(touchTimeout));
+
+            if (!isTikTokBrowser || isExternal) {
+                window.location.href = targetUrl;
+            }
+        }
+    </script>
 </body>
-</html>
+  </html>
