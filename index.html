@@ -3,37 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Відкрити у браузері</title>
+    <title>Открыть в браузере</title>
     <style>
-        /* CSS не змінювався — залишився той самий, що й у вас */
-        /* ... (скорочено для зручності) ... */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            text-align: center;
+            box-sizing: border-box;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a202c, #4a1d96, #5b21b6);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .container h2, .container p {
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        .container h2 {
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        .container p {
+            font-weight: 400;
+        }
+
+        .container .icon {
+            font-size: 48px;
+            margin-top: 20px;
+            animation: bounce 1.5s infinite;
+        }
+
+        .container .top-arrow {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 48px;
+            color: #e0c3fc;
+            animation: bounce 1.5s infinite;
+        }
+
+        .open-site-btn {
+            background: linear-gradient(45deg, #6b46c1, #9f7aea);
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .open-site-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .security-check {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e0c3fc;
+            border-top: 5px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        .checkmark {
+            display: none;
+            font-size: 50px;
+            color: #00ff00;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .instruction-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fingerprint {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 400px) {
+            .container h2, .container p {
+                font-size: 18px;
+                padding: 8px 15px;
+            }
+            .icon, .top-arrow {
+                font-size: 36px;
+            }
+            .open-site-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+            .spinner {
+                width: 40px;
+                height: 40px;
+            }
+            .checkmark {
+                font-size: 40px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="android-container" id="androidContainer">
+    <div class="container" id="androidContainer">
         <h2>🔞</h2>
         <p></p>
         <button class="open-site-btn" onclick="tryOpenWithIntent()">Открыть сайт</button>
     </div>
 
-    <div class="android-container" id="androidInstructionContainer" style="display: none;">
+    <div class="container" id="androidInstructionContainer">
         <div class="security-check">
             <div class="spinner" id="securitySpinner"></div>
             <div class="checkmark" id="securityCheckmark">✔</div>
-            <p class="security-text" id="securityText">Проверка сайта на безопасность...</p>
-            <p class="security-result" id="securityResult">Результат: Сайт безопасен для использования</p>
+            <p id="securityText">Проверка сайта на безопасность...</p>
+            <p id="securityResult" style="display:none;">Результат: Сайт безопасен для использования</p>
         </div>
         <div class="instruction-content" id="instructionContent">
             <div class="top-arrow">↗️</div>
-            <h2 id="androidInstructionTitle">Нажмите на три точки в правом верхнем углу ⬆️</h2>
-            <p id="androidInstructionText">Выберите <strong>"ОТКРЫТЬ В БРАУЗЕРЕ"</strong>, чтобы продолжить.</p>
+            <h2>Нажмите на три точки в правом верхнем углу ⬆️</h2>
+            <p>Выберите <strong>"ОТКРЫТЬ В БРАУЗЕРЕ"</strong>, чтобы продолжить.</p>
             <div class="icon">⋮</div>
         </div>
     </div>
 
-    <div class="ios-container" id="iosContainer">
-        <h2 id="iosInstructionTitle">УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ ⬇️⬇️!</h2>
-        <p id="iosInstructionText">ВЫБЕРИТЕ <strong>"ОТКРЫТЬ ССЫЛКУ"</strong></p>
+    <div class="container" id="iosContainer">
+        <h2>УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ ⬇️⬇️!</h2>
+        <p>ВЫБЕРИТЕ <strong>"ОТКРЫТЬ ССЫЛКУ"</strong></p>
         <a href="https://t.me/+DhPADNwsrI1iMDQ6" target="_blank" class="link">
             <img class="fingerprint" src="https://so65a.github.io/2/1.png" alt="Отпечаток пальца">
         </a>
@@ -58,7 +217,7 @@
         const isExternal = urlParams.get('external') === 'true';
 
         const isTikTokBrowser = /ttwebview|musically|tiktok|bytedance|douyin|webview/i.test(userAgent) || 
-                               window.navigator.standalone === false;
+                                 window.navigator.standalone === false;
 
         function tryOpenWithIntent() {
             const intentUrl = `intent://t.me/+DhPADNwsrI1iMDQ6#Intent;scheme=https;package=com.android.chrome;end`;
@@ -75,7 +234,6 @@
                 if (!intentTriggered && (Date.now() - startTime) < 1500) {
                     androidContainer.style.display = 'none';
                     androidInstructionContainer.style.display = 'flex';
-                    iosContainer.style.display = 'none';
 
                     setTimeout(() => {
                         securitySpinner.style.display = 'none';
@@ -95,12 +253,8 @@
                 window.location.href = targetUrl;
             } else {
                 androidContainer.style.display = 'flex';
-                androidInstructionContainer.style.display = 'none';
-                iosContainer.style.display = 'none';
             }
         } else if (isIOS) {
-            androidContainer.style.display = 'none';
-            androidInstructionContainer.style.display = 'none';
             iosContainer.style.display = 'flex';
 
             const iosLink = document.querySelector('.link');
@@ -116,18 +270,6 @@
             if (!isTikTokBrowser || isExternal) {
                 window.location.href = targetUrl;
             }
-        }
-
-        // 🔄 Автоматичне перемикання мови
-        const lang = navigator.language || navigator.userLanguage;
-        if (!lang.startsWith('ru')) {
-            // Українська мова
-            document.getElementById('androidInstructionTitle').innerText = 'Натисніть на три крапки в правому верхньому куті ⬆️';
-            document.getElementById('androidInstructionText').innerHTML = 'Виберіть <strong>"ВІДКРИТИ В БРАУЗЕРІ"</strong>, щоб продовжити.';
-            document.getElementById('iosInstructionTitle').innerText = 'УТРИМУЙТЕ ПАЛЕЦЬ НА ВІДБИТКУ ⬇️⬇️!';
-            document.getElementById('iosInstructionText').innerHTML = 'ВИБЕРІТЬ <strong>"ВІДКРИТИ ПОСИЛАННЯ"</strong>';
-            document.getElementById('securityText').innerText = 'Перевірка сайту на безпеку...';
-            document.getElementById('securityResult').innerText = 'Результат: Сайт безпечний для використання';
         }
     </script>
 </body>
