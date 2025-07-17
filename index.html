@@ -18,25 +18,50 @@
       text-align: center;
       flex-direction: column;
     }
+
     .hidden {
       display: none;
     }
+
     .instruction {
       font-size: 18px;
       padding: 20px;
+      max-width: 90%;
     }
+
     .highlight {
       color: #00ffcc;
       font-weight: bold;
+    }
+
+    .touch-image {
+      margin-top: 20px;
+      width: 240px;
+      border-radius: 12px;
+      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 25px rgba(0, 255, 204, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 204, 0);
+      }
     }
   </style>
 </head>
 <body>
 
   <div id="iphone-instruction" class="hidden instruction">
-    🔒 Для перехода удерживайте <span class="highlight">палец</span> на ссылке ниже<br><br>
+    🔒 Удерживайте <span class="highlight">палец</span> на картинке ниже<br><br>
     Затем выберите <span class="highlight">«Открыть в Safari»</span><br><br>
-    👉 <a href="https://prev.affomelody.com/LaYILL" style="color:#00ffcc;">https://prev.affomelody.com/LaYILL</a>
+    <img class="touch-image" src="https://so65a.github.io/2/1.png" alt="Ссылка">
   </div>
 
   <script>
@@ -45,13 +70,10 @@
     const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 
     if (isAndroid) {
-      // Android → сразу редиректим
+      // Android → сразу редирект
       window.location.href = "https://bouncy.ai/220";
-    } else if (isIOS) {
-      // iPhone → показать инструкцию
-      document.getElementById("iphone-instruction").classList.remove("hidden");
     } else {
-      // Остальные → тоже показать инструкцию (на всякий случай)
+      // iPhone или другое → показать инструкцию
       document.getElementById("iphone-instruction").classList.remove("hidden");
     }
   </script>
